@@ -15,8 +15,10 @@ const limiter = rateLimit({
   message: 'Você excedeu o limite de requisições. Tente novamente mais tarde.'
 })
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+  console.log('Swagger UI disponível em /api-docs')
+}
 app.use(cors())
 app.use(bodyParser.json())
 app.use(limiter)
