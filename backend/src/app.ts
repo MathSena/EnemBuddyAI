@@ -1,4 +1,4 @@
-import express, { Application } from 'express'
+import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import topicsRoutes from './routes/topicsRoutes'
@@ -19,9 +19,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(errorHandler)
 app.use(limiter)
+app.use(errorHandler)
+
 // Rotas
 app.use('/api/v1/topics', topicsRoutes)
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('API do Enem Buddy está rodando!')
+})
 
 export default app
